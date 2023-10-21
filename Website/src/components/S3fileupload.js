@@ -37,14 +37,14 @@ class S3fileupload extends Component {
             if (isUpdateSuccess){
                 // 保存的文件对象
                 var storeFileObject={
-                    TableName: config.DynamoDB.TableName,
-                    Item: {
-                        id: nanoid(),// 生成唯一id
-                        input_text:inputText,
-                        input_file_path:config.S3.BucketName+'/'+file.name
+                    "TableName": config.DynamoDB.TableName,
+                    "Item": {
+                        "id": { "S":nanoid()},// 生成唯一id
+                        "input_text":{"S":inputText},
+                        "input_file_path":{"S":config.S3.BucketName+'/'+file.name}
                     }
                 }
-                // console.log('上传对象',storeFileObject)
+                //console.log('上传对象',storeFileObject)
                 // 2、调用api写数据库
                 fetch(config.S3.UploadBucketURL, {
                     method: 'POST',
