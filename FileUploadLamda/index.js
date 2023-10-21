@@ -12,8 +12,8 @@ exports.handler = async (event, context) => {
     try {
         switch (event.httpMethod) {          
             case 'POST':
-                const command = new PutItemCommand(event.body);
-                const response = await client.send(command);
+                const command = new PutItemCommand(JSON.parse(event.body));
+                body = await client.send(command);
                 break;
             
             default:

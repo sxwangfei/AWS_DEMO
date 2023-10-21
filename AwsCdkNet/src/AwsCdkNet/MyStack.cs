@@ -182,7 +182,7 @@ namespace AwsCdkNet
             //创建并上传Dymandb增删改 Lamda执行函数文件
             var lambdaFn = new Amazon.CDK.AWS.Lambda.Function(this, "FileUploadLambda", new FunctionProps
             {
-                Runtime = Runtime.NODEJS_14_X,
+                Runtime = Runtime.NODEJS_18_X,
                 Code = Amazon.CDK.AWS.Lambda.Code.FromAsset("../FileUploadLamda/index.zip"),
                 Handler = "index.handler",
                 Timeout = Duration.Seconds(300),
