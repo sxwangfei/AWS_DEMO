@@ -1,6 +1,5 @@
-const AWS = require('aws-sdk');
-
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient, PutItemCommand }= require("@aws-sdk/client-dynamodb")
+const client = new DynamoDBClient();
 
 // 操作DynamoDb的lambda
 exports.handler = async (event, context) => {
@@ -11,19 +10,12 @@ exports.handler = async (event, context) => {
     };
 
     try {
-        switch (event.httpMethod) {
-            case 'DELETE':
-                body = await dynamo.delete(JSON.parse(event.body)).promise();
-                break;
-            case 'GET':
-                body = await dynamo.scan({ TableName: event.queryStringParameters.TableName }).promise();
-                break;
+        switch (event.httpMethod) {          
             case 'POST':
-                body = await dynamo.put(JSON.parse(event.body)).promise();
+                const command = new PutItemCommand(event.body);
+                const response = await client.send(command);
                 break;
-            case 'PUT':
-                body = await dynamo.update(JSON.parse(event.body)).promise();
-                break;
+            
             default:
                 throw new Error(`Unsupported method "${event.httpMethod}"`);
         }
